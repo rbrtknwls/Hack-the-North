@@ -11,6 +11,7 @@ var server = require("http").createServer(app);
 s3 = new aws.S3();
 rek  = new aws.Rekognition();
 const collectionName = "crimedata"
+const bucketName = "crimedatabase"
 
 app.use(express.static(__dirname + "/public"));
 
@@ -27,20 +28,41 @@ function init (){
 	rek.deleteCollection({CollectionId: collectionName}, function(err, data) {
 	   if (err){
 			  console.log("No Collection Found");
+				makecollection();
 		 }else{
 			  console.log("DELETED COLLECTION: " + collectionName);
+				makecollection();
 		 }
   });
 }
 
+function makecollection(){
+	rek.createCollection({CollectionId: collectionName}, function(err, data) {
+   if (err){
+		 console.log(err, err.stack);
+	 } else {
+		 console.log("Made Collection: "+ collectionName);
+		 gets3();
+	 }
+ });
+}
+
 function gets3 (){
-	s3.listBuckets(function(err, data) {
-		if (err) {
-			console.log("Error", err);
-		} else {
-			console.log("Success", data.Buckets[0].Name);
-		}
+	s3.listObjects({Bucket: bucketName, MaxKeys: 100}, function(err, data) {
+		if (err){
+			 console.log(err, err.stack);
+		}else{
+			 console.log(data);
+			 appendToCollection(data.Contents)
+		 }
 	});
+}
+
+function appendToCollection(data){
+	for (var i = 0; i < data.length; i ++){
+		console.log(data[i])
+		console.log("----");
+	}
 }
 
 
