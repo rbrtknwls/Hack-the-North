@@ -1,7 +1,7 @@
 var express = require("express");
 var path = require("path");
 var aws = require("aws-sdk")
-var imageToBase64 = require('image-to-base64');
+const fs = require('fs');
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
 aws.config.loadFromPath('./config.json');
@@ -15,6 +15,10 @@ const collectionName = "crimedata"
 const bucketName = "crimedatabase"
 var currcount = 0;
 
+const file = 'man.png';
+const bitmap = fs.readFileSync(file);
+const buffer = new Buffer.from(bitmap, 'base64')
+
 app.use(express.static(__dirname + "/public"));
 
 // PAGE BUILDING STUFF
@@ -26,6 +30,7 @@ server.listen(PORT);
 console.log("CHECKING PORT " + PORT);
 
 init()
+
 function init (){
 	rek.deleteCollection({CollectionId: collectionName}, function(err, data) {
 		if (err){
@@ -63,7 +68,7 @@ function appendToCollection(data){
 	for (var i = 0; i < data.length; i ++){
 		var locparams = {
 			CollectionId: collectionName,
-			Image: { /* required */
+			Image: {
 				S3Object: {
 					Bucket: bucketName,
 					Name: data[i].Key
@@ -72,23 +77,40 @@ function appendToCollection(data){
 		}
 		rek.indexFaces(locparams, function(err, img) {
 			if (err){
-				 console.log(err, err.stack);
-			 }
+				console.log(err, err.stack);
+			}
 			else{
 				currcount++;
 				if (currcount == data.length-1){
 					console.log("Just being safe...")
 					setTimeout(function(){
-						listFaces(collectionName);
+						compareface(buffer)
 					}, 1000);
 				}
-			 }
+			}
 		});
 	}
 }
 
 function compareface (face){
+	var params = {
+	  CollectionId: collectionName,
+	  Image: {
+	    Bytes: face
+	  },
+	  FaceMatchThreshold: 90,
+	  MaxFaces: 1,
+	};
+	rek.searchFacesByImage(params, function(err, data) {
+	  if (err){ // match not found
+			console.log(err, err.stack); // Match Not found
+		}
 
+	  else{ // match found
+			console.log("MATCH FOUND");
+			console.log(data);
+		}
+	});
 }
 
 function listFaces (colid){
