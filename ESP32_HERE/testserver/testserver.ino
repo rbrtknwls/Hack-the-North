@@ -7,16 +7,16 @@
 //
 
 // Select camera model
-#define CAMERA_MODEL_WROVER_KIT
+//#define CAMERA_MODEL_WROVER_KIT
 //#define CAMERA_MODEL_ESP_EYE
 //#define CAMERA_MODEL_M5STACK_PSRAM
 //#define CAMERA_MODEL_M5STACK_WIDE
-//#define CAMERA_MODEL_AI_THINKER
+#define CAMERA_MODEL_AI_THINKER
 
 #include "camera_pins.h"
 
-const char* ssid = "*********";
-const char* password = "*********";
+const char* ssid = "Robert Knowles’s iPhone";
+const char* password = "987654321";
 
 void startCameraServer();
 
@@ -83,8 +83,6 @@ void setup() {
   s->set_vflip(s, 1);
   s->set_hmirror(s, 1);
 #endif
-
-  Serial.println("AAA");
 
   WiFi.begin(ssid, password);
 
