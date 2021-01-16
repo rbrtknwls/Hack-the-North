@@ -15,7 +15,7 @@ const collectionName = "crimedata"
 const bucketName = "crimedatabase"
 var currcount = 0;
 
-const file = 'coollman.png';
+const file = 'test1.jpg';
 const bitmap = fs.readFileSync(file);
 const buffer = new Buffer.from(bitmap, 'base64')
 
@@ -103,7 +103,7 @@ function compareface (face){
 	  Image: {
 	    Bytes: face
 	  },
-	  FaceMatchThreshold: 90,
+	  FaceMatchThreshold: 0,
 	  MaxFaces: 1,
 	};
 	rek.searchFacesByImage(params, function(err, data) {
@@ -125,7 +125,7 @@ function compareface (face){
 function listFaces (colid){
 	var params = {
 		CollectionId: colid,
-		MaxResults: 20
+		MaxResults: 90
 	};
 	rek.listFaces(params, function(err, data) {
 		if (err) console.log(err, err.stack);
