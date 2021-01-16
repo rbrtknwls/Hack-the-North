@@ -9,10 +9,9 @@ aws.config.loadFromPath('./config.json');
 var app = express();
 var server = require("http").createServer(app);
 s3 = new aws.S3();
+rek  = new aws.Rekognition();
 
 app.use(express.static(__dirname + "/public"));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "pages"));
 
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
@@ -22,7 +21,10 @@ app.get("/", function(req, res) {
 server.listen(PORT);
 console.log("CHECKING PORT " + PORT);
 
-// Call S3 to list the buckets
+
+// call s3 to get all the data stored in the
+// bucket
+console.log("LISTING BUCKETS:")
 s3.listBuckets(function(err, data) {
   if (err) {
     console.log("Error", err);
@@ -30,3 +32,14 @@ s3.listBuckets(function(err, data) {
     console.log("Success", data.Buckets);
   }
 });
+
+// create a new collection which will contain all the
+// s3 objects
+rek.createCollection({CollectionId: "crimedatabase"}, function(err, data) {
+   if (err){
+		 console.log(err, err.stack);
+	 }
+   else{
+		 console.log(data);
+	 }
+ });
