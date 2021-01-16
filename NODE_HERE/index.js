@@ -10,6 +10,7 @@ var app = express();
 var server = require("http").createServer(app);
 s3 = new aws.S3();
 rek  = new aws.Rekognition();
+const collectionName = "crimedata"
 
 app.use(express.static(__dirname + "/public"));
 
@@ -21,25 +22,35 @@ app.get("/", function(req, res) {
 server.listen(PORT);
 console.log("CHECKING PORT " + PORT);
 
+init()
+function init (){
+	rek.deleteCollection({CollectionId: collectionName}, function(err, data) {
+	   if (err){
+			  console.log("No Collection Found");
+		 }else{
+			  console.log("DELETED COLLECTION: " + collectionName);
+		 }
+  });
+}
 
-// call s3 to get all the data stored in the
-// bucket
-console.log("LISTING BUCKETS:")
-s3.listBuckets(function(err, data) {
-  if (err) {
-    console.log("Error", err);
-  } else {
-    console.log("Success", data.Buckets);
-  }
-});
+function gets3 (){
+	s3.listBuckets(function(err, data) {
+		if (err) {
+			console.log("Error", err);
+		} else {
+			console.log("Success", data.Buckets[0].Name);
+		}
+	});
+}
 
-// create a new collection which will contain all the
-// s3 objects
-rek.createCollection({CollectionId: "crimedatabase"}, function(err, data) {
-   if (err){
-		 console.log(err, err.stack);
-	 }
-   else{
-		 console.log(data);
-	 }
- });
+
+function listFaces (colid){
+	var params = {
+	 CollectionId: colid,
+	 MaxResults: 20
+	};
+	rek.listFaces(params, function(err, data) {
+		if (err) console.log(err, err.stack);
+		else     console.log(data);
+	})
+}
