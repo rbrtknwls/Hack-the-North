@@ -15,7 +15,7 @@ const collectionName = "crimedata"
 const bucketName = "crimedatabase"
 var currcount = 0;
 
-const file = 'man.png';
+const file = 'coollman.png';
 const bitmap = fs.readFileSync(file);
 const buffer = new Buffer.from(bitmap, 'base64')
 
@@ -30,6 +30,10 @@ server.listen(PORT);
 console.log("CHECKING PORT " + PORT);
 
 init()
+// --------------- GET STUFFFF ---------------//
+
+
+// --------------- RUNTIME STUFFFF ---------------//
 
 function init (){
 	rek.deleteCollection({CollectionId: collectionName}, function(err, data) {
@@ -68,6 +72,7 @@ function appendToCollection(data){
 	for (var i = 0; i < data.length; i ++){
 		var locparams = {
 			CollectionId: collectionName,
+			ExternalImageId: data[i].Key,
 			Image: {
 				S3Object: {
 					Bucket: bucketName,
@@ -102,17 +107,21 @@ function compareface (face){
 	  MaxFaces: 1,
 	};
 	rek.searchFacesByImage(params, function(err, data) {
-	  if (err){ // match not found
-			console.log(err, err.stack); // Match Not found
+	  if (err){
+			console.log(err, err.stack);
 		}
 
-	  else{ // match found
-			console.log("MATCH FOUND");
-			console.log(data);
+	  else{
+			if (data.FaceMatches.length == 0){
+				notfound();
+			}else{
+				found(data.FaceMatches)
+			}
 		}
 	});
 }
 
+// --------------- DEBUG STUFFFF ---------------//
 function listFaces (colid){
 	var params = {
 		CollectionId: colid,
@@ -122,4 +131,13 @@ function listFaces (colid){
 		if (err) console.log(err, err.stack);
 		else     console.log(data);
 	})
+}
+
+// --------------- POST STUFFFF ---------------//
+function notfound(){
+	console.log("FACE NOT FOUND")
+}
+function found(data){
+	console.log("FACE MATCH (s):")
+	console.log(data)
 }
