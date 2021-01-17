@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>See post</title>
+</head>
+<body>
+  <% if (currentImage) { %>
+    <img src="/uploads/<%=currentImage%>" alt="">
+  <% } else { %>
+    <h1>Upload an image!</h1>
+    <% } %>
+</body>
+</html>
