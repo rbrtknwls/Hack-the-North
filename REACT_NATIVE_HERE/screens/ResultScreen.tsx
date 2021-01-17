@@ -11,13 +11,13 @@ class UploadScreen extends Component {
     return (
 <View style={ViewStyle}>
     <Image/>
-    <Text>{this.props.person.name}</Text>
-    <Text>{this.props.person.desc}</Text>
-<TouchableOpacity style={AgainStyle} title="Upload Again">
-<Text>Upload Another</Text>
+    <Text style = {TextStyle}>{this.props.person.name}</Text>
+    <Text style = {TextStyle}>{this.props.person.desc}</Text>
+<TouchableOpacity style={AgainStyle} title="Upload Again" >
+<Text style= {ButtonTextStyle}>Upload Another</Text>
 </TouchableOpacity>
 </View>
-    
+
     );
   }
 }
@@ -28,12 +28,24 @@ const ViewStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    backgroundColor: '#1C0F40'
 }
 
 const AgainStyle = {
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: "#FF6E39",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12
+}
+
+const TextStyle = {
+  color: 'white',
+  fontSize: 25
+}
+
+const ButtonTextStyle = {
+  color: 'white',
+  fontWeight: 'bold',
+  fontSize: 15
 }

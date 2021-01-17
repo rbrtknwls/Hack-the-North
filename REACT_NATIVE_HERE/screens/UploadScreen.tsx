@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button,Image, TouchableOpacity,} from 'react-native';
+import { View, Text, Button, Image, TouchableOpacity,} from 'react-native';
 
 class UploadScreen extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class UploadScreen extends Component {
 <Text>Take Photo</Text>
 </TouchableOpacity>
 </View>
-    
+
     );
   }
 }
