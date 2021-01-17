@@ -2,13 +2,15 @@ var express = require("express");
 var path = require("path");
 var aws = require("aws-sdk");
 const fs = require("fs");
+var mostRecentName = 0;
 const multer = require("multer");
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		cb(null, "./public/uploads/");
 	},
 	filename: function(req, file, cb) {
-		cb(null, new Date().toISOString() + file.originalname);
+		mostRecentName++;
+		cb(null, mostRecentName.toString());
 	}
 });
 const upload = multer({ storage: storage });
@@ -25,9 +27,9 @@ const collectionName = "crimedata";
 const bucketName = "crimedatabase";
 var currcount = 0;
 
-const file = "test1.jpg";
-const bitmap = fs.readFileSync(file);
-const buffer = new Buffer.from(bitmap, "base64");
+// const file = "test1.jpg";
+var bitmap;
+var buffer;
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
@@ -35,18 +37,26 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-var db;
 var currentImage;
+var imageFileName = "s";
+var rt = false;
 
-// PAGE BUILDING STUFF
-app.get("/", function(req, res) {
-	res.render("post", { currentImage });
-});
-
-app.post("/post", upload.single("productImage"), function(req, res) {
-	console.log(req.file.filename);
+app.get("/post", upload.single("productImage"), function(req, res) {
+	//console.log(req.file.filename);
+	console.log("afsddsfssf");
+	currcount = 0;
 	currentImage = req.file.filename;
-	res.redirect("/");
+	bitmap = fs.readFileSync("./public/uploads/" + mostRecentName);
+	buffer = new Buffer.from(bitmap, "base64");
+	console.log("test1");
+	setTimeout(function() {
+		init();
+	}, 3000);
+	setTimeout(function() {
+		res.send(imageFileName);
+	}, 10000);
+
+	// res.redirect("/");
 });
 
 app.post("/home", function(req, res) {
@@ -54,12 +64,12 @@ app.post("/home", function(req, res) {
 	console.log(req.body)
 });
 
-init();
 // --------------- GET STUFFFF ---------------//
 
 // --------------- RUNTIME STUFFFF ---------------//
 
 function init() {
+	rt = false;
 	rek.deleteCollection({ CollectionId: collectionName }, function(err, data) {
 		if (err) {
 			console.log("No Collection Found");
@@ -91,6 +101,7 @@ function gets3() {
 		}
 		else {
 			appendToCollection(data.Contents);
+			console.log("here");
 		}
 	});
 }
@@ -130,7 +141,7 @@ function compareface(face) {
 		Image: {
 			Bytes: face
 		},
-		FaceMatchThreshold: 0,
+		FaceMatchThreshold: 90,
 		MaxFaces: 1
 	};
 	rek.searchFacesByImage(params, function(err, data) {
@@ -163,8 +174,10 @@ function listFaces(colid) {
 // --------------- POST STUFFFF ---------------//
 function notfound() {
 	console.log("FACE NOT FOUND");
+	imageFileName = "N/A";
 }
 function found(data) {
 	console.log("FACE MATCH (s):");
-	console.log(data);
+	console.log(data[0].Face.ExternalImageId);
+	imageFileName = data[0].Face.ExternalImageId;
 }
