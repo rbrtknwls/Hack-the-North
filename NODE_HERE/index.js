@@ -21,15 +21,22 @@ const buffer = new Buffer.from(bitmap, "base64");
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+var db;
 
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
-	res.sendFile(path.join(__dirname + "/index.html"));
+	console.log(db);
+	res.render("post", { db });
 });
 
 app.post("/post", function(req, res) {
 	console.log(req.body);
+	db = req.body;
+	res.redirect("/");
 });
 
 server.listen(PORT);
