@@ -9,13 +9,12 @@ class UploadScreen extends Component {
         super(props);
         this.state = {
             visible: false,
-            loadvisible: false
         }
     }
 
     componentDidMount() {
         setTimeout(() => {
-            this.setState({ loadvisible: true })
+            this.setState({ visible: true })
 
 
         }, 1000);
