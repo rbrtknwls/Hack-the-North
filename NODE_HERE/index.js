@@ -21,7 +21,7 @@ const bitmap = fs.readFileSync(file);
 const buffer = new Buffer.from(bitmap, 'base64')
 
 app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.raw({ extended: true }));
+app.use(bodyParser.raw({ type: 'image/jpg' }));
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
