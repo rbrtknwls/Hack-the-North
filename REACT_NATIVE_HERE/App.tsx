@@ -39,7 +39,8 @@ class App extends React.Component {
 
   changetoUpload(event){
     this.setState({
-      page:1
+      page:1,
+      image:null
       /*person:null*/});
   
 
@@ -64,7 +65,7 @@ class App extends React.Component {
       this.setState({
         image:result.uri,
         person:person,
-      image:null});
+      });
     }
   }
 
