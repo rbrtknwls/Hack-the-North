@@ -10,7 +10,21 @@ class UploadScreen extends Component {
   render() {
     return (
 <View style={ViewStyle}>
-    <Image/>
+  <View style={{display:'flex', flexDirection:'row'}}>
+    <Image
+    source={{
+      uri: this.props.person.photo1
+    }}
+      style={{ width: 300, height: 300 }}
+    />
+    <Image
+    source={{
+      uri: 'https://crimedatabase.s3.us-east-2.amazonaws.com/' + this.props.person.photo2+'?'+new Date(),
+      method: 'GET'
+    }}
+      style={{ width: 300, height: 300 }}
+    />
+    </View>
     <Text style = {TextStyle}>{this.props.person.name}</Text>
     <Text style = {TextStyle}>{this.props.person.desc}</Text>
 <TouchableOpacity style={AgainStyle} title="Upload Again" onPress={this.props.handlePress}>

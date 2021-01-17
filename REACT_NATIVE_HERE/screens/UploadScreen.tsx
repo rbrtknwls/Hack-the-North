@@ -52,34 +52,33 @@ const TextWrap = {
 
 const Title= {
     color:"white",
-    fontFamily:"Futura",
+    fontFamily:"sans-serif",
     letterSpacing:2,
-    fontSize:80,
-    fontWeight:800,
+    fontSize:80
 
 }
 
 const Desc= {
     color:"white",
-    fontFamily:"Futura",
+    fontFamily:"sans-serif",
     fontSize:16,
     marginBottom:50,
 }
 const UploadText = {
     color:"white",
-    fontFamily:"Futura",
+    fontFamily:"sans-serif",
     letterSpacing:2,
 }
 
 const GoText = {
     color:"white",
-    fontFamily:"Futura",
+    fontFamily:"sans-serif",
     letterSpacing:2,
 }
 const PhotoText = {
     textDecorationLine: 'underline',
     color:"white",
-    fontFamily:"Futura",
+    fontFamily:"sans-serif",
     letterSpacing:2,
 }
 const WrapperStyle = {
