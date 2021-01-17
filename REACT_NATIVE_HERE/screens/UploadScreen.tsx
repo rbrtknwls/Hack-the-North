@@ -55,7 +55,7 @@ const Title= {
     fontFamily:"Futura",
     letterSpacing:2,
     fontSize:80,
-    fontWeight:800,
+    fontWeight: 'bold',
 
 }
 
