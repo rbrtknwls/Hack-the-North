@@ -2,6 +2,16 @@ var express = require("express");
 var path = require("path");
 var aws = require("aws-sdk");
 const fs = require("fs");
+const multer = require("multer");
+const storage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, "./public/uploads/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, new Date().toISOString() + file.originalname);
+	}
+});
+const upload = multer({ storage: storage });
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
 aws.config.loadFromPath("./config.json");
@@ -26,16 +36,16 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 var db;
+var currentImage;
 
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
-	console.log(db);
-	res.render("post", { db });
+	res.render("post", { currentImage });
 });
 
-app.post("/post", function(req, res) {
-	console.log(req.body);
-	db = req.body;
+app.post("/post", upload.single("productImage"), function(req, res) {
+	console.log(req.file.filename);
+	currentImage = req.file.filename;
 	res.redirect("/");
 });
 
