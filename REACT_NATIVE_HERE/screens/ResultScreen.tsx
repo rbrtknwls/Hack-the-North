@@ -13,7 +13,7 @@ class UploadScreen extends Component {
     <Image/>
     <Text style = {TextStyle}>{this.props.person.name}</Text>
     <Text style = {TextStyle}>{this.props.person.desc}</Text>
-<TouchableOpacity style={AgainStyle} title="Upload Again" >
+<TouchableOpacity style={AgainStyle} title="Upload Again">
 <Text style= {ButtonTextStyle}>Upload Another</Text>
 </TouchableOpacity>
 </View>

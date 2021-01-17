@@ -51,7 +51,8 @@ const TextWrap= {
     justifyContent: 'center',
     alignItems: 'center',
 }
-const Title={
+
+const Title= {
     color:"white",
     fontFamily:"Futura",
     letterSpacing:2,
@@ -60,24 +61,24 @@ const Title={
 
 }
 
-const Desc={
+const Desc= {
     color:"white",
     fontFamily:"Futura",
     fontSize:16,
     marginBottom:50,
 }
-const UploadText ={
+const UploadText = {
     color:"white",
     fontFamily:"Futura",
     letterSpacing:2,
 }
 
-const GoText ={
+const GoText = {
     color:"white",
     fontFamily:"Futura",
     letterSpacing:2,
 }
-const PhotoText ={
+const PhotoText = {
     textDecorationLine: 'underline',
     color:"white",
     fontFamily:"Futura",
