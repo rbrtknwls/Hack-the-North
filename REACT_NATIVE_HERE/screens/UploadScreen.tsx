@@ -3,17 +3,14 @@ import { View, Text, Button, Image, TouchableOpacity,} from 'react-native';
 
 class UploadScreen extends Component {
   constructor(props) {
-	super(props);
+    super(props);
    }
 
 
   render() {
-      let display_photo = (this.props.image!=null)  ?  <Image source={this.props.image}  style=
-      {{ width: 200, height: 200,marginBottom:50,marginTop:25 }}/>: null;
-
+      let display_photo = (this.props.image!=null)  ?  <Image source={this.props.image}  style={{ width: 200, height: 200,marginBottom:50,marginTop:25 }}/>: null;
       let textVisible = (this.props.image==null) ? "flex" : "none"
 
-    console.log(this.props.image)
     return (
         <View style={WrapperStyle}>
 
@@ -30,15 +27,16 @@ class UploadScreen extends Component {
 <Text style={UploadText} >Upload</Text>
 </TouchableOpacity>
 
-<TouchableOpacity title="Confirm" onPress={this.props.handlePress} style={{... ConfirmStyle, display:"none"}}>
+<TouchableOpacity title="Confirm" onPress={this.props.handlePress} style={{... ConfirmStyle, display: (textVisible=="flex") ? "none":"flex"}}>
 <Text style={GoText}> Go</Text>
 </TouchableOpacity>
 </View>
 
 <View>
-<TouchableOpacity title="Take photo" style={TakePhotoStyle}>
+<TouchableOpacity title="Take photo" style={TakePhotoStyle} onPress={this.props.takeImage}>
 <Text style={PhotoText}>Take Photo</Text>
 </TouchableOpacity>
+</View>
 </View>
 
     );
@@ -47,7 +45,7 @@ class UploadScreen extends Component {
 
 export default UploadScreen;
 
-const TextWrap= {
+const TextWrap = {
     justifyContent: 'center',
     alignItems: 'center',
 }
