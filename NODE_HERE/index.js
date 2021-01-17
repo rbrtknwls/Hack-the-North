@@ -49,8 +49,10 @@ app.post("/post", upload.single("productImage"), function(req, res) {
 	res.redirect("/");
 });
 
-server.listen(PORT);
-console.log("CHECKING PORT " + PORT);
+app.post("/home", function(req, res) {
+	console.log("YES");
+	console.log(req.body)
+});
 
 init();
 // --------------- GET STUFFFF ---------------//
