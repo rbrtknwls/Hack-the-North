@@ -40,7 +40,7 @@ class App extends React.Component {
   changetoUpload(event){
     this.setState({
       page:1,
-      image:null
+      image:null,
       /*person:null*/});
   
 
@@ -114,4 +114,3 @@ class App extends React.Component {
 }
 
 export default App;
-

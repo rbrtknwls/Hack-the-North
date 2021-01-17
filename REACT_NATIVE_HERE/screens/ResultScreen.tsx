@@ -1,27 +1,48 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Image,TouchableOpacity} from 'react-native';
+import { View, Text, Button, Image, TouchableOpacity } from 'react-native';
+import FadeInOut from 'react-native-fade-in-out';
+import { StyleSheet } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 class UploadScreen extends Component {
-  constructor(props) {
-	super(props);
-   }
+    constructor(props) {
+        super(props);
+        this.state = {
+            visible: false,
+            loadvisible: false
+        }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({ loadvisible: true })
 
 
-  render() {
-    return (
-<View style={ViewStyle}>
-    <Image/>
-    <Text style = {TextStyle}>{this.props.person.name}</Text>
-    <Text style = {TextStyle}>{this.props.person.desc}</Text>
-<TouchableOpacity style={AgainStyle} title="Upload Again" onPress={this.props.handlePress}>
-<Text style= {ButtonTextStyle}>Upload Another</Text>
-</TouchableOpacity>
-</View>
+        }, 1000);
+
+    }
+
+    render() {
+        return (
+
+            <View style={ViewStyle}>
+                    <FadeInOut visible={this.state.visible}>
+    
+
+                        <Image />
+                        <Text style={TextStyle}>{this.props.person.name}</Text>
+                        <Text style={TextStyle}>{this.props.person.desc}</Text>
+                        <TouchableOpacity style={AgainStyle} title="Upload Again" onPress={this.props.handlePress}>
+                            <Text style={ButtonTextStyle}>Upload Another</Text>
+
+                        </TouchableOpacity>
+</FadeInOut>
+
+            </View>
 
 
-
-    );
-  }
+        );
+    }
 }
 
 export default UploadScreen;
@@ -42,12 +63,19 @@ const AgainStyle = {
 }
 
 const TextStyle = {
-  color: 'white',
-  fontSize: 25
+    color: 'white',
+    fontSize: 25
 }
 
 const ButtonTextStyle = {
-  color: 'white',
-  fontWeight: 'bold',
-  fontSize: 15
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15
+}
+
+const styles = {
+    lottie: {
+        width: 100,
+        height: 100
+    }
 }
