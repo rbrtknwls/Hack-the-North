@@ -21,7 +21,7 @@ class App extends React.Component {
   
   this.state ={ 
     page: 1,
-    image:"",
+    image:null,
     person: demo_person,
     colorScheme: true
   };
