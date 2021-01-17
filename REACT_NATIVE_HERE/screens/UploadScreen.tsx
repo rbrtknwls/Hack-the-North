@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Button,Image, TouchableOpacity,} from 'react-native';
 
-
 class UploadScreen extends Component {
   constructor(props) {
 	super(props);
