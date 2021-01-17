@@ -2,6 +2,7 @@ var express = require("express");
 var path = require("path");
 var aws = require("aws-sdk")
 const fs = require('fs');
+const bodyParser = require('body-parser');
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
 aws.config.loadFromPath('./config.json');
@@ -20,16 +21,20 @@ const bitmap = fs.readFileSync(file);
 const buffer = new Buffer.from(bitmap, 'base64')
 
 app.use(express.static(__dirname + "/public"));
-
+app.use(bodyParser.raw({ extended: true }));
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
 });
 
-server.listen(PORT);
-console.log("CHECKING PORT " + PORT);
+app.post("/home", function(req, res) {
+	console.log("YES");
+	console.log(req.body)
+});
 
-init()
+app.listen(3000, '0.0.0.0', function() {
+    console.log('Listening to port:  ' + 3000);
+});
 // --------------- GET STUFFFF ---------------//
 
 
