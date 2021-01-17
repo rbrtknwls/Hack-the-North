@@ -60,7 +60,7 @@ class UploadScreen extends Component {
                         </FadeInOut>
                     </View>
                     </FadeInOut>
-                
+
             </View>
 
         );
@@ -147,5 +147,3 @@ const TakePhotoStyle = {
     marginTop: 1,
     marginBottom: 1,
 }
-
-

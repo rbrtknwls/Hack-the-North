@@ -4,18 +4,18 @@ import FadeInOut from 'react-native-fade-in-out';
 import { StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
 
+
 class UploadScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            loadvisible: false
         }
     }
 
     componentDidMount() {
         setTimeout(() => {
-            this.setState({ loadvisible: true })
+            this.setState({ visible: true })
 
 
         }, 1000);
@@ -27,7 +27,7 @@ class UploadScreen extends Component {
 
             <View style={ViewStyle}>
                     <FadeInOut visible={this.state.visible}>
-    
+
 
                         <Image />
                         <Text style={TextStyle}>{this.props.person.name}</Text>
