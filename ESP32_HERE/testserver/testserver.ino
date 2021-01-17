@@ -1,5 +1,10 @@
 #include "esp_camera.h"
 #include <WiFi.h>
+#include <SPIFFS.h>
+#include <HTTPClient.h>
+#include "ESPAsyncWebServer.h"
+AsyncWebServer server(80);
+
 
 //
 // WARNING!!! Make sure that you have either selected ESP32 Wrover Module,
@@ -68,6 +73,14 @@ void setup() {
     Serial.printf("Camera init failed with error 0x%x", err);
     return;
   }
+    if (!SPIFFS.begin(true)) {
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    ESP.restart();
+  }
+  else {
+    delay(500);
+    Serial.println("SPIFFS mounted successfully");
+  }
 
   sensor_t * s = esp_camera_sensor_get();
   //initial sensors are flipped vertically and colors are a bit saturated
@@ -92,15 +105,33 @@ void setup() {
   }
   Serial.println("");
   Serial.println("WiFi connected");
+  Serial.println(WiFi.localIP());
+  server.on("/picture", HTTP_GET, [](AsyncWebServerRequest * request) {
 
-  startCameraServer();
+    Serial.println("AH");
+ 
+    camera_fb_t * frame = NULL;
+    frame = esp_camera_fb_get();
+    
+    request->send_P(200, "image/jpeg", (const uint8_t *)frame->buf, frame->len);
+ 
+    esp_camera_fb_return(frame);
+  });
 
-  Serial.print("Camera Ready! Use 'http://");
-  Serial.print(WiFi.localIP());
-  Serial.println("' to connect");
+  server.begin();
+  
+  
+
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  delay(10000);
+  delay(300); 
+  
+
+  
+  
+  
+  
 }
